@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,47 +22,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.util.List;
-
 public class SearchRoute extends Fragment {
     private GoogleMap mMap;
-    private LatLng startLatLng = new LatLng(12.9717, 79.1380); // Start coordinates (San Francisco, CA)
+    private LatLng startLatLng = new LatLng(12.9717, 79.1380); // Start coordinates
     private LatLng endLatLng = new LatLng(12.9692, 79.1559);
-
-    private OnMapReadyCallback callback = new OnMapReadyCallback() {
-
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
-            mMap = googleMap;
-//            LatLng sydney = new LatLng(-34, 151);
-//            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-            mMap.addMarker(new MarkerOptions().position(startLatLng).title("Start"));
-            mMap.addMarker(new MarkerOptions().position(endLatLng).title("End"));
-
-            // Move camera to show both markers
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            builder.include(startLatLng);
-            builder.include(endLatLng);
-            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
-
-            // Draw polyline between start and end points
-            PolylineOptions polylineOptions = new PolylineOptions()
-                    .add(startLatLng)
-                    .add(endLatLng);
-            Polyline polyline = mMap.addPolyline(polylineOptions);
-        }
-
-    };
 
     @Nullable
     @Override
@@ -75,6 +41,45 @@ public class SearchRoute extends Fragment {
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
-        }}
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    mMap = googleMap;
+
+                    // Add markers and calculate bounds
+                    mMap.addMarker(new MarkerOptions().position(startLatLng).title("Start"));
+                    mMap.addMarker(new MarkerOptions().position(endLatLng).title("End"));
+
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    builder.include(startLatLng);
+                    builder.include(endLatLng);
+                    LatLngBounds bounds = builder.build();
+
+                    // Move camera with padding, post layout
+                    final int padding = 100;
+                    final View mapView = mapFragment.getView();
+                    if (mapView.getViewTreeObserver().isAlive()) {
+                        mapView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @SuppressLint("NewApi") // We check which build version we are using.
+                            @Override
+                            public void onGlobalLayout() {
+                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                                    mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                                } else {
+                                    mapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                }
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
+                            }
+                        });
+                    }
+
+                    // Draw polyline between start and end points
+                    PolylineOptions polylineOptions = new PolylineOptions()
+                            .add(startLatLng)
+                            .add(endLatLng);
+                    Polyline polyline = mMap.addPolyline(polylineOptions);
+                }
+            });
+        }
+    }
 }
