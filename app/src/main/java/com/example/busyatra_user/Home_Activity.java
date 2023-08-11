@@ -5,8 +5,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.busyatra_user.databinding.ActivityHomeBinding;
 
@@ -30,11 +28,11 @@ public class Home_Activity extends AppCompatActivity {
                     case R.id.home:
                         replaceFragment(new HomeFragment());
                         break;
-                    case R.id.profile:
-                        replaceFragment(new ProfileFragment());
+                    case R.id.history:
+                        replaceFragment(new HistoryFragment());
                         break;
-                    case R.id.support:
-                        replaceFragment(new ChatFragment());
+                    case R.id.schedule:
+                        replaceFragment(new ScheduleFragment());
                         break;
                     case R.id.payment:
                         replaceFragment(new PaymentFragment());
