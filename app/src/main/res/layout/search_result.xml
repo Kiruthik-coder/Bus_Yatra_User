@@ -5,29 +5,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
     android:padding="8dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="15dp"
+    app:cardElevation="10dp">
 
     <!-- Customize the layout as needed for your search results -->
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/resultIcon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/search_icon" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-        <TextView
-            android:id="@+id/resultText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:textColor="#121111"
-            android:textSize="16sp" />
+            <ImageView
+                android:id="@+id/resultIcon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/education" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/resultText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/nunitosans_bold"
+                android:textColor="#121111"
+                android:textSize="16sp" />
+        </TableRow>
+
+    </TableLayout>
 
 </androidx.cardview.widget.CardView>

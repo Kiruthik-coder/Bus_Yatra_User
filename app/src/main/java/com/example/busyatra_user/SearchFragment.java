@@ -51,9 +51,9 @@ public class SearchFragment extends Fragment {
 
                 // Dummy data for demonstration:
                 List<SearchResultItem> newSearchResults = new ArrayList<>();
-                newSearchResults.add(new SearchResultItem(R.drawable.search_icon, "Result 1"));
-                newSearchResults.add(new SearchResultItem(R.drawable.search_icon, "Result 2"));
-                newSearchResults.add(new SearchResultItem(R.drawable.search_icon, "Result 3"));
+                newSearchResults.add(new SearchResultItem(R.drawable.education, "Result 1"));
+                newSearchResults.add(new SearchResultItem(R.drawable.education, "Result 2"));
+                newSearchResults.add(new SearchResultItem(R.drawable.education, "Result 3"));
                 updateSearchResults(newSearchResults);
             }
 
