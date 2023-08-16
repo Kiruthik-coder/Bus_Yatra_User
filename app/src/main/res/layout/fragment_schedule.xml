@@ -28,8 +28,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="329dp"
-            android:layout_height="210dp"
+            android:layout_width="321dp"
+            android:layout_height="213dp"
             app:cardCornerRadius="15dp"
             app:cardElevation="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -62,8 +62,8 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="332dp"
-            android:layout_height="208dp"
+            android:layout_width="321dp"
+            android:layout_height="207dp"
             app:cardCornerRadius="15dp"
             app:cardElevation="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -71,7 +71,7 @@
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:layout_constraintVertical_bias="0.124" >
+            app:layout_constraintVertical_bias="0.124">
 
             <TableLayout
                 android:layout_width="match_parent"
